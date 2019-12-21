@@ -16,5 +16,11 @@ jobs:
     - if: os = linux
       env: CONFIG=""
 script:
-  - cmake -S . -B build
-  - cmake --build build $CONFIG
+  - |
+    if [$TRAVIS_OS_NAME == "windows"]; then
+      cmake -S . -B build
+      cmake --build build --config Release
+    elif [$TRAVIS_OS_NAME == "linux"]; then
+      cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
+      cmake --build build
+    fi
