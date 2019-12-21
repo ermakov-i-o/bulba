@@ -2,9 +2,12 @@ language: cpp
 dist: bionic
 compiler:
   - clang
+  - gcc
+arch:
+  - amd64
+  - arm64
 os:
   - linux
-  - windows
 script:
   - mkdir build
   - cd build
