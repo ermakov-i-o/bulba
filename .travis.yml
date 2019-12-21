@@ -12,11 +12,14 @@ os:
 script:
   - |
     if [ $TRAVIS_OS_NAME == "windows" ]; then
-      cmake -S . -B build
+      mkdir build
+      cd build
+      cmake ..
       cmake --build build --config Release
     elif [ $TRAVIS_OS_NAME == "linux" ]; then
       mkdir build
-      cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
+      cd build
+      cmake -DCMAKE_BUILD_TYPE=Release ..
       cmake --build build
     else
       echo "Unsupported OS"
