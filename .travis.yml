@@ -1,0 +1,11 @@
+language: cpp
+dist: bionic
+compiler:
+  - clang
+os:
+  - linux
+script:
+  - mkdir build
+  - cd build
+  - cmake -DCMAKE_BUILD_TYPE=Release ..
+  - cmake --build .
