@@ -15,6 +15,7 @@ script:
       cmake -S . -B build
       cmake --build build --config Release
     elif [ $TRAVIS_OS_NAME == "linux" ]; then
+      mkdir build
       cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
       cmake --build build
     else
