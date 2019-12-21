@@ -1,10 +1,4 @@
 dist: bionic
-compiler:
-  - clang
-  - gcc
-arch:
-  - amd64
-  - arm64
 os:
   - linux
   - windows
@@ -17,6 +11,12 @@ jobs:
         - cmake --build build --config Release
     - if: os = linux
       language: cpp
+      compiler:
+        - clang
+        - gcc
+      arch:
+        - amd64
+        - arm64
       script:
         - cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
         - cmake --build build
