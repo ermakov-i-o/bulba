@@ -1,4 +1,3 @@
-language: cpp
 dist: bionic
 compiler:
   - clang
@@ -12,10 +11,12 @@ os:
 jobs:
   include:
     - if: os = windows
+      language: cpp
       script:
         - cmake -S . -B build
         - cmake --build build --config Release
     - if: os = linux
+      language: cpp
       script:
         - cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
         - cmake --build build
