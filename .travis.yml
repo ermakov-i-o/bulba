@@ -15,12 +15,12 @@ script:
       mkdir build
       cd build
       cmake ..
-      cmake --build build --config Release
+      cmake --build . --config Release
     elif [ $TRAVIS_OS_NAME == "linux" ]; then
       mkdir build
       cd build
       cmake -DCMAKE_BUILD_TYPE=Release ..
-      cmake --build build
+      cmake --build .
     else
       echo "Unsupported OS"
       exit 1
