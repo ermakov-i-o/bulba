@@ -8,6 +8,7 @@ arch:
   - arm64
 os:
   - linux
+  - windows
 script:
   - mkdir build
   - cd build
