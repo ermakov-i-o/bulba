@@ -11,12 +11,12 @@ os:
   - windows
 jobs:
   include:
-    - stage: build
+    - stage: "Build"
       if: os = windows
       script:
         - cmake -S . -B build
         - cmake --build build --config Release
-    - stage: build
+    - stage: "Build"
       if: os = linux
       script:
         - cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
