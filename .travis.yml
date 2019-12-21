@@ -9,8 +9,13 @@ arch:
 os:
   - linux
   - windows
-script:
-  - mkdir build
-  - cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release ..
-  - cmake --build .
+jobs:
+  include:
+    - stage: build
+      if: os = windows
+      script: cmake -S . -B build
+    - script: cmake --build build --config Release
+    - stage: build
+      if: os = linux
+      script: -DCMAKE_BUILD_TYPE=Release cmake -S . -B build
+    - script: cmake --build build
