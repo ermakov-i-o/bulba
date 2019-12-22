@@ -28,5 +28,5 @@ jobs:
       script:
         - mkdir build
         - cd build
-        - cmake -G "NMake Makefiles" ..
+        - cmake -G "MinGW Makefiles" ..
         - cmake --build . --config Release
