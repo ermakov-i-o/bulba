@@ -1,13 +1,14 @@
 dist: bionic
-language: cpp
-os: linux
-arch:
-  - amd64
-  - arm64
 jobs:
   include:
+    - matrix:
+      - language: cpp
+        os: linux
+        arch:
+          - amd64
+          - arm64
     - script:
-        - mkdir build
-        - cd build
-        - cmake -DCMAKE_BUILD_TYPE=Release ..
-        - cmake --build .
+      - mkdir build
+      - cd build
+      - cmake -DCMAKE_BUILD_TYPE=Release ..
+      - cmake --build .
