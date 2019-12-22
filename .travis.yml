@@ -16,7 +16,6 @@ jobs:
   include:
     - os: windows
       arch: amd64
-      compiler: msvc
       script:
         - mkdir build
         - cd build
@@ -28,5 +27,5 @@ jobs:
       script:
         - mkdir build
         - cd build
-        - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -G "MSYS Makefiles" ..
+        - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_MAKE_PROGRAM=make -G "MSYS Makefiles" ..
         - cmake --build . --config Release
