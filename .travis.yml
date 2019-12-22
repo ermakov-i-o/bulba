@@ -15,9 +15,9 @@ script:
 jobs:
   include:
     - os: windows
-    - arch: amd64
-    - script:
-      - mkdir build
-      - cd build
-      - cmake ..
-      - cmake --build . --config Release
+      arch: amd64
+      script:
+        - mkdir build
+        - cd build
+        - cmake ..
+        - cmake --build . --config Release
