@@ -16,6 +16,7 @@ jobs:
   include:
     - os: windows
       arch: amd64
+      compiler: msvc
       script:
         - mkdir build
         - cd build
