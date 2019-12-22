@@ -1,11 +1,12 @@
 dist: bionic
 language: cpp
-os:
-  - linux
-  - windows
+os: linux
 arch:
   - amd64
   - arm64
+compiler:
+  - gcc
+  - clang
 script:
   - mkdir build
   - cd build
@@ -14,6 +15,7 @@ script:
 jobs:
   include:
     - os: windows
+    - arch: amd64
     - script:
       - mkdir build
       - cd build
