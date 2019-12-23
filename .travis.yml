@@ -7,25 +7,19 @@ arch:
 compiler:
   - gcc
   - clang
-script:
-  - mkdir build
-  - cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release ..
-  - cmake --build .
+env:
+  - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
+  - CONFIG_TYPE=""
 jobs:
   include:
     - os: windows
       arch: amd64
-      script:
-        - mkdir build
-        - cd build
-        - cmake ..
-        - cmake --build . --config Release
-    - os: windows
-      arch: amd64
-      compiler: gcc
-      script:
-        - mkdir build
-        - cd build
-        - cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_MAKE_PROGRAM=make -G "MSYS Makefiles" ..
-        - cmake --build . --config Release
+      env:
+        - BUILD_TYPE=""
+        - CONFIG_TYPE="--config Release"
+script:
+  - cmake --version
+  - mkdir build
+  - cd build
+  - cmake $BUILD_TYPE ..
+  - cmake --build . $CONFIG_TYPE
