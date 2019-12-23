@@ -7,19 +7,19 @@ arch:
 compiler:
   - gcc
   - clang
-env:
-  - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
-  - CONFIG_TYPE=""
 jobs:
   include:
     - os: windows
       arch: amd64
-      env:
-        - BUILD_TYPE=""
-        - CONFIG_TYPE="--config Release"
+      script:
+        - cmake --version
+        - mkdir build
+        - cd build
+        - cmake ..
+        - cmake --build . --config Release
 script:
   - cmake --version
   - mkdir build
   - cd build
-  - cmake $BUILD_TYPE ..
-  - cmake --build . $CONFIG_TYPE
+  - cmake -DCMAKE_BUILD_TYPE=Release ..
+  - cmake --build .
