@@ -16,7 +16,7 @@ addons:
       #- sourceline: 'deb https://apt.kitware.com/ubuntu/ bionic main'
       #  key_url: 'https://apt.kitware.com/keys/kitware-archive-latest.asc'
     packages:
-      - cmake-3.16
+      - cmake
 jobs:
   include:
     - os: windows
@@ -28,8 +28,10 @@ jobs:
         - cmake ..
         - cmake --build . --config Release
 script:
-  - cmake --version
-  - mkdir build
-  - cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release ..
-  - cmake --build .
+  - lsb_release --all
+  - apt-cache show cmake -a | grep Version#- cmake --version
+  - cond_call cmake#- mkdir build
+  - |#- cd build
+    LOCATIONS="$(whereis cmake)"#- cmake -DCMAKE_BUILD_TYPE=Release ..
+    for LOCATION in ${LOCATIONS:-}; do#- cmake --build .
+      cond_call $LOCATION
