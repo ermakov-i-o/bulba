@@ -29,9 +29,18 @@ jobs:
         - cmake --build . --config Release
 script:
   - lsb_release --all
-  - apt-cache show cmake -a | grep Version#- cmake --version
-  - cond_call cmake#- mkdir build
-  - |#- cd build
-    LOCATIONS="$(whereis cmake)"#- cmake -DCMAKE_BUILD_TYPE=Release ..
-    for LOCATION in ${LOCATIONS:-}; do#- cmake --build .
+  - apt-cache show cmake -a | grep Version
+  - cond_call cmake
+  - |
+    LOCATIONS="$(whereis cmake)"
+    for LOCATION in ${LOCATIONS:-}; do
       cond_call $LOCATION
+    done
+  - cond_call /usr/local/cmake/bin/cmake # secondary location on Xenial
+  - hash
+  - echo $PATH
+  #- cmake --version
+  #- mkdir build
+  #- cd build
+  #- cmake -DCMAKE_BUILD_TYPE=Release ..
+  #- cmake --build .
