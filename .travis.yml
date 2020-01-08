@@ -29,6 +29,7 @@ jobs:
         - BUILD_CONFIG="--config Release"
 
 script:
+  - echo $BUILD_TYPE $CXX_COMPILER $BUILD_CONFIG
   - mkdir build
   - cd build
   - cmake $BUILD_TYPE $CXX_COMPILER ..
