@@ -4,3 +4,7 @@ project(bulba)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(bulba main.cpp)
+
+find_package(Threads REQUIRED)
+
+target_link_libraries(bulba Threads::Threads)

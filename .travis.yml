@@ -19,7 +19,7 @@ jobs:
       script:
         - mkdir build
         - cd build
-        - cmake -DCMAKE_BUILD_TYPE=Release -DCXX_COMPILER=g++-9 ..
+        - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-9 ..
         - cmake --build .
 
     - os: windows
