@@ -46,15 +46,13 @@ jobs:
         apt:
           update: true
           sources:
-            - sourceline: 'ppa:ubuntu-toolchain-r/test'
             - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
               key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
           packages:
-            - g++-9
             - clang-9
       env:
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
-        - CXX_COMPILER="-DCMAKE_CXX_COMPILER=clang-9"
+        - CXX_COMPILER="-DCMAKE_CXX_COMPILER=clang++-9"
         - BUILD_CONFIG=
 
     - os: windows
