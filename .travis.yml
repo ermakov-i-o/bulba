@@ -16,16 +16,20 @@ jobs:
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
             - g++-9
-      script:
-        - mkdir build
-        - cd build
-        - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-9 ..
-        - cmake --build .
+      env:
+        - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
+        - CXX_COMPILER="-DCMAKE_CXX_COMPILER=g++-9"
+        - BUILD_CONFIG=
 
     - os: windows
       arch: amd64
-      script:
-        - mkdir build
-        - cd build
-        - cmake ..
-        - cmake --build . --config Release
+      env:
+        - BUILD_TYPE=
+        - CXX_COMPILER=
+        - BUILD_CONFIG="--config Release"
+
+script:
+  - mkdir build
+  - cd build
+  - cmake $BUILD_TYPE $CXX_COMPILER ..
+  - cmake --build . $BUILD_CONFIG
