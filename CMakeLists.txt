@@ -13,7 +13,6 @@ add_executable(bulba
 
 target_include_directories(bulba
         PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-# test comment
 
 find_package(Threads REQUIRED)
 
