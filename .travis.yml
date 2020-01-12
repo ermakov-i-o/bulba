@@ -16,7 +16,7 @@ _cmake_build_script: &_cmake_build_script
       wget https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz
       tar -xf cmake-3.16.2.tar.gz
       mkdir $MY_CMAKE_DIR
-      cmake-3.16.2/bootstrap --prefix=$HOME/cmake --parallel=$(nproc)
+      cmake-3.16.2/bootstrap --prefix=$MY_CMAKE_DIR --parallel=$(nproc)
       make
       make install
       rm -rf cmake-3.16.2.tar.gz cmake-3.16.2/
@@ -41,60 +41,6 @@ jobs:
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=g++-9"
         - BUILD_CONFIG=
-      before_script:
-        *_cmake_build_script
-      cache:
-        directories:
-          *_cmake_cache_directories
-
-    - os: linux
-      arch: arm64
-      compiler: gcc
-      addons:
-        apt:
-          sources:
-            - sourceline: 'ppa:ubuntu-toolchain-r/test'
-          packages:
-            - g++-9
-      env:
-        *_cmake_env
-        - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
-        - CXX_COMPILER="-DCMAKE_CXX_COMPILER=g++-9"
-        - BUILD_CONFIG=
-      before_script:
-        *_cmake_build_script
-      cache:
-        directories:
-          *_cmake_cache_directories
-
-    - os: linux
-      arch: amd64
-      compiler: clang
-      addons:
-        apt:
-          sources:
-            - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
-              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-          packages:
-            - clang-9
-      env:
-        *_cmake_env
-        - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
-        - CXX_COMPILER="-DCMAKE_CXX_COMPILER=clang++-9"
-        - BUILD_CONFIG=
-      before_script:
-        *_cmake_build_script
-      cache:
-        directories:
-          *_cmake_cache_directories
-
-    - os: windows
-      arch: amd64
-      env:
-        *_cmake_env
-        - BUILD_TYPE=
-        - CXX_COMPILER=
-        - BUILD_CONFIG="--config Release"
       before_script:
         *_cmake_build_script
       cache:
