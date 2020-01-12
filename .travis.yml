@@ -11,7 +11,7 @@ _cmake_env: &_cmake_env
   - MY_CMAKE=$MY_CMAKE_DIR/bin/cmake
 _cmake_build_script: &_cmake_build_script
   - |-
-    if [ ! -f $CMAKE ]; then
+    if [ ! -f $MY_CMAKE ]; then
       cd $HOME
       wget https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz
       tar -xf cmake-3.16.2.tar.gz
