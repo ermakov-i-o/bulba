@@ -21,16 +21,23 @@ jobs:
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=g++-9"
         - BUILD_CONFIG=
+        - CMAKE=$HOME/cmake/bin/cmake
       before_script:
-        - cd $HOME
-        - wget https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz
-        - tar -xf cmake-3.16.2.tar.gz
-        - mkdir cmake
-        - cmake-3.16.2/bootstrap --prefix=$HOME/cmake --parallel=$(nproc)
-        - make
-        - make install
-        - rm -rf cmake-3.16.2.tar.gz cmake-3.16.2/
-        - cd -
+        - |-
+          if [ ! -f $CMAKE ]; then
+            cd $HOME
+            wget https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz
+            tar -xf cmake-3.16.2.tar.gz
+            mkdir cmake
+            cmake-3.16.2/bootstrap --prefix=$HOME/cmake --parallel=$(nproc)
+            make
+            make install
+            rm -rf cmake-3.16.2.tar.gz cmake-3.16.2/
+            cd -
+          fi
+      cache:
+        directories:
+          - $HOME/cmake
 
     - os: linux
       arch: arm64
@@ -77,5 +84,5 @@ jobs:
 script:
   - mkdir build
   - cd build
-  - cmake $BUILD_TYPE $CXX_COMPILER -DCMAKE_UNITY_BUILD=ON ..
-  - cmake --build . $BUILD_CONFIG
+  - $CMAKE $BUILD_TYPE $CXX_COMPILER -DCMAKE_UNITY_BUILD=ON ..
+  - $CMAKE --build . $BUILD_CONFIG
