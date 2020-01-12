@@ -52,8 +52,6 @@ jobs:
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=g++-9"
         - BUILD_CONFIG=
-      before_script:
-        - pwd
 
     - os: linux
       arch: amd64
@@ -69,8 +67,6 @@ jobs:
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=clang++-9"
         - BUILD_CONFIG=
-      before_script:
-        - pwd
 
     - os: windows
       arch: amd64
@@ -78,8 +74,6 @@ jobs:
         - BUILD_TYPE=
         - CXX_COMPILER=
         - BUILD_CONFIG="--config Release"
-      before_script:
-        - pwd
 
 script:
   - mkdir build
