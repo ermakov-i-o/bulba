@@ -1,8 +1,7 @@
-#include <thread>
-#include <iostream>
+#include <greeting.hpp>
 
 int main()
 {
-    std::thread{[] { std::cout << "Hello, Bulba!" << std::endl; }}.join();
+    bulba::greet();
     return 0;
 }

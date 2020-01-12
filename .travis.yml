@@ -13,7 +13,6 @@ jobs:
       compiler: gcc
       addons:
         apt:
-          update: true
           sources:
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
@@ -22,13 +21,14 @@ jobs:
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=g++-9"
         - BUILD_CONFIG=
+      before_script:
+        - pwd
 
     - os: linux
       arch: arm64
       compiler: gcc
       addons:
         apt:
-          update: true
           sources:
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
@@ -37,13 +37,14 @@ jobs:
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=g++-9"
         - BUILD_CONFIG=
+      before_script:
+        - pwd
 
     - os: linux
       arch: amd64
       compiler: clang
       addons:
         apt:
-          update: true
           sources:
             - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-9 main'
               key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
@@ -53,6 +54,8 @@ jobs:
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=clang++-9"
         - BUILD_CONFIG=
+      before_script:
+        - pwd
 
     - os: windows
       arch: amd64
@@ -60,9 +63,11 @@ jobs:
         - BUILD_TYPE=
         - CXX_COMPILER=
         - BUILD_CONFIG="--config Release"
+      before_script:
+        - pwd
 
 script:
   - mkdir build
   - cd build
-  - cmake $BUILD_TYPE $CXX_COMPILER ..
+  - cmake $BUILD_TYPE $CXX_COMPILER -DCMAKE_UNITY_BUILD=ON ..
   - cmake --build . $BUILD_CONFIG
