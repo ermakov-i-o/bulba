@@ -6,6 +6,10 @@ branches:
 git:
   depth: 1
 
+_cmake_env: &_cmake_env
+  - MY_CMAKE_DIR=&HOME/cmake
+  - MY_CMAKE=$MY_CMAKE_DIR/bin/cmake
+
 _cmake_build_script: &_cmake_build_script
   - |-
     if [ ! -f $MY_CMAKE ]; then
@@ -35,8 +39,7 @@ jobs:
           packages:
             - g++-9
       env:
-        - MY_CMAKE_DIR=&HOME/cmake
-        - MY_CMAKE=$MY_CMAKE_DIR/bin/cmake
+        - *_cmake_env
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=g++-9"
         - BUILD_CONFIG=
