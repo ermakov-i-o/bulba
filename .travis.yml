@@ -23,6 +23,8 @@ jobs:
         - BUILD_CONFIG=
       before_script:
         - pwd
+        - echo $HOME
+        - cd $HOME
 
     - os: linux
       arch: arm64
