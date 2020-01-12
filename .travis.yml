@@ -6,6 +6,20 @@ branches:
 git:
   depth: 1
 
+build_cmake: &build_cmake
+  - |-
+    if [ ! -f $CMAKE ]; then
+      cd $HOME
+      wget https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz
+      tar -xf cmake-3.16.2.tar.gz
+      mkdir cmake
+      cmake-3.16.2/bootstrap --prefix=$HOME/cmake --parallel=$(nproc)
+      make
+      make install
+      rm -rf cmake-3.16.2.tar.gz cmake-3.16.2/
+      cd -
+    fi
+
 jobs:
   include:
     - os: linux
@@ -23,18 +37,7 @@ jobs:
         - BUILD_CONFIG=
         - CMAKE=$HOME/cmake/bin/cmake
       before_script:
-        - |-
-          if [ ! -f $CMAKE ]; then
-            cd $HOME
-            wget https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz
-            tar -xf cmake-3.16.2.tar.gz
-            mkdir cmake
-            cmake-3.16.2/bootstrap --prefix=$HOME/cmake --parallel=$(nproc)
-            make
-            make install
-            rm -rf cmake-3.16.2.tar.gz cmake-3.16.2/
-            cd -
-          fi
+        *build_cmake
       cache:
         directories:
           - $HOME/cmake
