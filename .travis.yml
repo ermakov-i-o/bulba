@@ -6,7 +6,7 @@ branches:
 git:
   depth: 1
 
-build_cmake: &build_cmake
+cmake_build_script: &cmake_build_script
   - |-
     if [ ! -f $CMAKE ]; then
       cd $HOME
@@ -37,7 +37,7 @@ jobs:
         - BUILD_CONFIG=
         - CMAKE=$HOME/cmake/bin/cmake
       before_script:
-        *build_cmake
+        *cmake_build_script
       cache:
         directories:
           - $HOME/cmake
