@@ -22,9 +22,15 @@ jobs:
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=g++-9"
         - BUILD_CONFIG=
       before_script:
-        - pwd
-        - echo $HOME
         - cd $HOME
+        - wget https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz
+        - tar -xf cmake-3.16.2.tar.gz
+        - mkdir cmake
+        - cmake-3.16.2/bootstrap --prefix=$HOME/cmake --parallel=$(nproc)
+        - make
+        - make install
+        - rm -rf cmake-3.16.2.tar.gz cmake-3.16.2/
+        - cd -
 
     - os: linux
       arch: arm64
