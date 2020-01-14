@@ -12,11 +12,11 @@ _cmake_env: &_cmake_env
 _cmake_build_script: &_cmake_build_script
   - |-
     if [ ! -f $MY_CMAKE ]; then
-      rm -rf $MY_CMAKE
+      rm -rf MY_CMAKE_DIR
       wget -P $HOME https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz
       mkdir $MY_CMAKE_DIR
       mkdir $MY_CMAKE_DIR/src
-      tar -C $MY_CMAKE_DIR/src -xf cmake-3.16.2.tar.gz
+      tar -C $MY_CMAKE_DIR/src -xf $HOME/cmake-3.16.2.tar.gz
       cmake -S $MY_CMAKE_DIR/src/cmake-3.16.2 -B $MY_CMAKE_DIR/src/cmake-3.16.2/build
       cmake --build $MY_CMAKE_DIR/src/cmake-3.16.2/build -j $(nproc)
       cmake --install $MY_CMAKE_DIR/src/cmake-3.16.2/build --prefix $MY_CMAKE_DIR
