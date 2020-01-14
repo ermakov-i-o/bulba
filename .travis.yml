@@ -12,15 +12,14 @@ _cmake_env: &_cmake_env
 _cmake_build_script: &_cmake_build_script
   - |-
     if [ ! -f $MY_CMAKE ]; then
-      cd $HOME
-      wget https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz
-      tar -xf cmake-3.16.2.tar.gz
+      wget -P $HOME https://github.com/Kitware/CMake/releases/download/v3.16.2/cmake-3.16.2.tar.gz
       mkdir $MY_CMAKE_DIR
-      cmake-3.16.2/bootstrap --prefix=$MY_CMAKE_DIR --parallel=$(nproc)
-      make
-      make install
-      rm -rf cmake-3.16.2.tar.gz cmake-3.16.2/
-      cd -
+      mkdir $MY_CMAKE_DIR/src
+      tar -C $MY_CMAKE_DIR/src -xf cmake-3.16.2.tar.gz
+      cmake -S $MY_CMAKE_DIR/src/cmake-3.16.2 -B $MY_CMAKE_DIR/src/cmake-3.16.2/build
+      cmake --build $MY_CMAKE_DIR/src/cmake-3.16.2/build -j $(nproc)
+      cmake --install $MY_CMAKE_DIR
+      rm -rf $HOME/cmake-3.16.2.tar.gz $MY_CMAKE_DIR/src/
     fi
 _cmake_cache_directories: &_cmake_cache_directories
   - $MY_CMAKE_DIR
@@ -102,7 +101,5 @@ jobs:
           - *_cmake_cache_directories
 
 script:
-  - mkdir build
-  - cd build
-  - $MY_CMAKE $BUILD_TYPE $CXX_COMPILER -DCMAKE_UNITY_BUILD=ON ..
-  - $MY_CMAKE --build . $BUILD_CONFIG
+  - $MY_CMAKE $BUILD_TYPE $CXX_COMPILER -DCMAKE_UNITY_BUILD=ON -S . -B build
+  - $MY_CMAKE --build build -j $(nproc) $BUILD_CONFIG
