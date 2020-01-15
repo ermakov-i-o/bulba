@@ -17,10 +17,12 @@ _cmake_build_script: &_cmake_build_script
       mkdir $MY_CMAKE_DIR
       mkdir $MY_CMAKE_DIR/src
       tar -C $MY_CMAKE_DIR/src -xf $HOME/cmake-3.16.2.tar.gz
-      cmake -S $MY_CMAKE_DIR/src/cmake-3.16.2 -B $MY_CMAKE_DIR/src/cmake-3.16.2/build
-      cmake --build $MY_CMAKE_DIR/src/cmake-3.16.2/build -j $(nproc)
-      cmake --install $MY_CMAKE_DIR/src/cmake-3.16.2/build --prefix $MY_CMAKE_DIR
+      mkdir $MY_CMAKE_DIR/src/cmake-3.16.2/build
+      cd $MY_CMAKE_DIR/src/cmake-3.16.2/build
+      cmake -DCMAKE_INSTALL_PREFIX=$MY_CMAKE_DIR ..
+      cmake --build . --target install
       rm -rf $HOME/cmake-3.16.2.tar.gz $MY_CMAKE_DIR/src/
+      cd -
     fi
 _cmake_cache_directories: &_cmake_cache_directories
   - $MY_CMAKE_DIR
