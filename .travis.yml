@@ -157,6 +157,6 @@ jobs:
           - *_windows_mingw_cache_directories
 
 script:
-  - echo $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $GENERATOR -DCMAKE_UNITY_BUILD=ON -S . -B build
-  - $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $GENERATOR -DCMAKE_UNITY_BUILD=ON -S . -B build 2>&1
+  - echo $MY_CMAKE $BUILD_TYPE $CXX_COMPILER "$GENERATOR" -DCMAKE_UNITY_BUILD=ON -S . -B build
+  - $MY_CMAKE $BUILD_TYPE $CXX_COMPILER "$GENERATOR" -DCMAKE_UNITY_BUILD=ON -S . -B build 2>&1
   - $MY_CMAKE --build build -j $(nproc) $BUILD_CONFIG 2>&1
