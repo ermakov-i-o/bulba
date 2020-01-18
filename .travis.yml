@@ -27,6 +27,27 @@ _cmake_build_script: &_cmake_build_script
 _cmake_cache_directories: &_cmake_cache_directories
   - $MY_CMAKE_DIR
 
+_windows_mingw_installation: &_windows_mingw_installation
+  - |-
+    [[ ! -f C:/tools/msys64/msys2_shell.cmd ]] && rm -rf C:/tools/msys64
+    choco uninstall -y mingw
+    choco upgrade --no-progress -y msys2
+    export msys2='cmd //C RefreshEnv.cmd '
+    export msys2+='& set MSYS=winsymlinks:nativestrict '
+    export msys2+='& C:\\tools\\msys64\\msys2_shell.cmd -defterm -no-start'
+    export mingw64="$msys2 -mingw64 -full-path -here -c \$\* --"
+    export msys2+=" -msys2 -c \$\* --"
+    $msys2 pacman --sync --noconfirm --needed mingw-w64-x86_64-gcc
+    ## Install more MSYS2 packages from https://packages.msys2.org/base here
+    taskkill //IM gpg-agent.exe //F  # https://travis-ci.community/t/4967
+    export PATH=/C/tools/msys64/mingw64/bin:$PATH
+    export MAKE=mingw32-make  # so that Autotools can find it
+_windows_mingw_before_cache: &_windows_mingw_before_cache
+  - $msys2 pacman --sync --clean --noconfirm
+_windows_mingw_cache_directories: &_windows_mingw_cache_directories
+  - $HOME/AppData/Local/Temp/chocolatey
+  - /C/tools/msys64
+
 jobs:
   include:
     - os: linux
@@ -102,6 +123,24 @@ jobs:
       cache:
         directories:
           - *_cmake_cache_directories
+
+    - os: windows
+      arch: amd64
+      env:
+        - *_cmake_env
+        - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
+        - CXX_COMPILER="C:\\tools\\msys64\\mingw64\\bin\\g++.exe"
+        - BUILD_CONFIG=
+      before_install:
+        - *_windows_mingw_installation
+      before_script:
+        - *_cmake_build_script
+      before_cache:
+        - *_windows_mingw_before_cache
+      cache:
+        directories:
+          - *_cmake_cache_directories
+          - *_windows_mingw_cache_directories
 
 script:
   - $MY_CMAKE $BUILD_TYPE $CXX_COMPILER -DCMAKE_UNITY_BUILD=ON -S . -B build
