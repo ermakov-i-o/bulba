@@ -124,7 +124,7 @@ jobs:
         - *_cmake_env
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=/C/tools/msys64/mingw64/bin/g++.exe"
-        - GENERATOR=-G "MinGW Makefiles"
+        - GENERATOR="-G \"MinGW Makefiles\""
         - MINGW_PACKAGE="mingw-w64-x86_64-gcc"
       before_install:
         - *_windows_mingw_installation
@@ -143,7 +143,7 @@ jobs:
         - *_cmake_env
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=/C/tools/msys64/mingw64/bin/clang++.exe"
-        - GENERATOR=-G "MinGW Makefiles"
+        - GENERATOR="-G \"MinGW Makefiles\""
         - MINGW_PACKAGE="mingw-w64-x86_64-clang"
       before_install:
         - *_windows_mingw_installation
