@@ -129,12 +129,13 @@ jobs:
       env:
         - *_cmake_env
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
-        - CXX_COMPILER="C:\\tools\\msys64\\mingw64\\bin\\g++.exe"
+        - CXX_COMPILER="/C/tools/msys64/mingw64/bin/g++.exe"
         - BUILD_CONFIG=
       before_install:
         - *_windows_mingw_installation
       before_script:
         - *_cmake_build_script
+        - $CXX_COMPILER --version
       before_cache:
         - *_windows_mingw_before_cache
       cache:
