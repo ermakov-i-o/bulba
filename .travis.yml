@@ -130,13 +130,12 @@ jobs:
         - *_cmake_env
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=/C/tools/msys64/mingw64/bin/g++.exe"
-        - GENERATOR=-G "MinGW Makefiles"
+        - GENERATOR="-G \"MinGW Makefiles\""
         - BUILD_CONFIG=
       before_install:
         - *_windows_mingw_installation
       before_script:
         - *_cmake_build_script
-        - echo $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $GENERATOR -DCMAKE_UNITY_BUILD=ON -S . -B build
       before_cache:
         - *_windows_mingw_before_cache
       cache:
@@ -145,5 +144,6 @@ jobs:
           - *_windows_mingw_cache_directories
 
 script:
-  - $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $GENERATOR -DCMAKE_UNITY_BUILD=ON -S . -B build &2>1
+  - echo $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $GENERATOR -DCMAKE_UNITY_BUILD=ON -S . -B build
+  - $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $GENERATOR -DCMAKE_UNITY_BUILD=ON -S . -B build
   - $MY_CMAKE --build build -j $(nproc) $BUILD_CONFIG &2>1
