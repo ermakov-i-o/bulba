@@ -37,10 +37,8 @@ _windows_mingw_installation: &_windows_mingw_installation
     export msys2+='& C:\\tools\\msys64\\msys2_shell.cmd -defterm -no-start'
     export mingw64="$msys2 -mingw64 -full-path -here -c \$\* --"
     export msys2+=" -msys2 -c \$\* --"
-    $msys2 pacman --sync --noconfirm --needed mingw-w64-x86_64-gcc
-    ## Install more MSYS2 packages from https://packages.msys2.org/base here
+    $msys2 pacman --sync --noconfirm --needed $MINGW_PACKAGE
     taskkill //IM gpg-agent.exe //F  # https://travis-ci.community/t/4967
-    export PATH=/C/tools/msys64/mingw64/bin:$PATH
     export MAKE=mingw32-make  # so that Autotools can find it
 _windows_mingw_before_cache: &_windows_mingw_before_cache
   - $msys2 pacman --sync --clean --noconfirm
@@ -63,7 +61,6 @@ jobs:
         - *_cmake_env
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=g++-9"
-        - BUILD_CONFIG=
       before_script:
         - *_cmake_build_script
       cache:
@@ -83,7 +80,6 @@ jobs:
         - *_cmake_env
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=g++-9"
-        - BUILD_CONFIG=
       before_script:
         - *_cmake_build_script
       cache:
@@ -104,7 +100,6 @@ jobs:
         - *_cmake_env
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=clang++-9"
-        - BUILD_CONFIG=
       before_script:
         - *_cmake_build_script
       cache:
@@ -115,8 +110,6 @@ jobs:
       arch: amd64
       env:
         - *_cmake_env
-        - BUILD_TYPE=
-        - CXX_COMPILER=
         - BUILD_CONFIG="--config Release"
       before_script:
         - *_cmake_build_script
@@ -131,7 +124,26 @@ jobs:
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=/C/tools/msys64/mingw64/bin/g++.exe"
         - GENERATOR="-G \"MinGW Makefiles\""
-        - BUILD_CONFIG=
+        - MINGW_PACKAGE="mingw-w64-x86_64-gcc"
+      before_install:
+        - *_windows_mingw_installation
+      before_script:
+        - *_cmake_build_script
+      before_cache:
+        - *_windows_mingw_before_cache
+      cache:
+        directories:
+          - *_cmake_cache_directories
+          - *_windows_mingw_cache_directories
+
+    - os: windows
+      arch: amd64
+      env:
+        - *_cmake_env
+        - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
+        - CXX_COMPILER="-DCMAKE_CXX_COMPILER=/C/tools/msys64/mingw64/bin/clang++.exe"
+        - GENERATOR="-G \"MinGW Makefiles\""
+        - MINGW_PACKAGE="mingw-w64-x86_64-clang"
       before_install:
         - *_windows_mingw_installation
       before_script:
@@ -145,5 +157,5 @@ jobs:
 
 script:
   - echo $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $GENERATOR -DCMAKE_UNITY_BUILD=ON -S . -B build
-  - $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $GENERATOR -DCMAKE_UNITY_BUILD=ON -S . -B build
-  - $MY_CMAKE --build build -j $(nproc) $BUILD_CONFIG &2>1
+  - $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $GENERATOR -DCMAKE_UNITY_BUILD=ON -S . -B build 2>&1
+  - $MY_CMAKE --build build -j $(nproc) $BUILD_CONFIG 2>&1
