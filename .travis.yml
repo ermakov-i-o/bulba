@@ -136,6 +136,7 @@ jobs:
           - *_cmake_cache_directories
           - *_windows_mingw_cache_directories
       script:
+        - /C/tools/msys64/mingw64/bin/mingw32-make.exe --help
         - echo $MY_CMAKE $BUILD_TYPE $CXX_COMPILER -DCMAKE_UNITY_BUILD=ON -S . -B build
         - CMAKE_GENERATOR="MinGW Makefiles" $MY_CMAKE $BUILD_TYPE $CXX_COMPILER -DCMAKE_UNITY_BUILD=ON -DCMAKE_MAKE_PROGRAM=/C/tools/msys64/mingw64/bin/mingw32-make.exe -S . -B build 2>&1
         - $MY_CMAKE --build build -j $(nproc) $BUILD_CONFIG 2>&1
