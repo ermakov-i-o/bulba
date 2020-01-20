@@ -40,7 +40,7 @@ _windows_mingw_installation: &_windows_mingw_installation
     $MSYS2 pacman --sync --noconfirm --needed mingw-w64-x86_64-make
     $MSYS2 pacman --sync --noconfirm --needed $MINGW_PACKAGE
     taskkill //IM gpg-agent.exe //F  # https://travis-ci.community/t/4967
-    export MINGW32_MAKE=/C/tools/msys64/mingw64/mingw32-make.exe  # so that Autotools can find it
+    export MINGW32_MAKE=/C/tools/msys64/mingw64/bin/mingw32-make.exe  # so that Autotools can find it
 _windows_mingw_before_cache: &_windows_mingw_before_cache
   - $MSYS2 pacman --sync --clean --noconfirm
 _windows_mingw_cache_directories: &_windows_mingw_cache_directories
