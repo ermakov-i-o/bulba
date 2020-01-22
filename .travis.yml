@@ -124,9 +124,6 @@ jobs:
         - *_cmake_env
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=/C/tools/msys64/mingw64/bin/g++.exe"
-        - MINGW_PACKAGE="mingw-w64-x86_64-gcc"
-        - RUNNER=$MINGW64
-        - MAKE_PROGRAM="-DCMAKE_MAKE_PROGRAM=$MINGW32_MAKE"
       before_install:
         - *_windows_mingw_installation
         - *_cmake_build_script
@@ -136,6 +133,10 @@ jobs:
         directories:
           - *_cmake_cache_directories
           - *_windows_mingw_cache_directories
+      before_script:
+        - export MINGW_PACKAGE="mingw-w64-x86_64-gcc"
+        - export RUNNER=$MINGW64
+        - export MAKE_PROGRAM="-DCMAKE_MAKE_PROGRAM=$MINGW32_MAKE"
       script:
         - echo CMAKE_GENERATOR="MinGW Makefiles" $MINGW64 $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $MAKE_PROGRAM -DCMAKE_UNITY_BUILD=ON -S . -B build
         - CMAKE_GENERATOR="MinGW Makefiles" $MINGW64 $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $MAKE_PROGRAM -DCMAKE_UNITY_BUILD=ON -S . -B build 2>&1
@@ -147,9 +148,6 @@ jobs:
         - *_cmake_env
         - BUILD_TYPE="-DCMAKE_BUILD_TYPE=Release"
         - CXX_COMPILER="-DCMAKE_CXX_COMPILER=/C/tools/msys64/mingw64/bin/clang++.exe"
-        - MINGW_PACKAGE="mingw-w64-x86_64-clang"
-        - RUNNER=$MINGW64
-        - MAKE_PROGRAM="-DCMAKE_MAKE_PROGRAM=$MINGW32_MAKE"
       before_install:
         - *_windows_mingw_installation
         - *_cmake_build_script
@@ -160,7 +158,9 @@ jobs:
           - *_cmake_cache_directories
           - *_windows_mingw_cache_directories
       before_script:
-        - export CMAKE_GENERATOR="MinGW Makefiles"
+        - export MINGW_PACKAGE="mingw-w64-x86_64-clang"
+        - export RUNNER=$MINGW64
+        - export MAKE_PROGRAM="-DCMAKE_MAKE_PROGRAM=$MINGW32_MAKE"
       script:
         - $MINGW64 $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $MAKE_PROGRAM -DCMAKE_UNITY_BUILD=ON -S . -B build 2>&1
         - $MINGW64 $MY_CMAKE --build build -j $(nproc) $BUILD_CONFIG 2>&1
