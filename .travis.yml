@@ -137,10 +137,7 @@ jobs:
       before_script:
         - export RUNNER=$MINGW64
         - export MAKE_PROGRAM="-DCMAKE_MAKE_PROGRAM=$MINGW32_MAKE"
-      script:
-        - echo CMAKE_GENERATOR="MinGW Makefiles" $MINGW64 $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $MAKE_PROGRAM -DCMAKE_UNITY_BUILD=ON -S . -B build
-        - CMAKE_GENERATOR="MinGW Makefiles" $MINGW64 $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $MAKE_PROGRAM -DCMAKE_UNITY_BUILD=ON -S . -B build 2>&1
-        - $MINGW64 $MY_CMAKE --build build -j $(nproc) $BUILD_CONFIG 2>&1
+        - export CMAKE_GENERATOR="MinGW Makefiles"
 
     - os: windows
       arch: amd64
@@ -161,9 +158,7 @@ jobs:
       before_script:
         - export RUNNER=$MINGW64
         - export MAKE_PROGRAM="-DCMAKE_MAKE_PROGRAM=$MINGW32_MAKE"
-      script:
-        - $MINGW64 $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $MAKE_PROGRAM -DCMAKE_UNITY_BUILD=ON -S . -B build 2>&1
-        - $MINGW64 $MY_CMAKE --build build -j $(nproc) $BUILD_CONFIG 2>&1
+        - export CMAKE_GENERATOR="MinGW Makefiles"
 
 script:
   - $RUNNER $MY_CMAKE $BUILD_TYPE $CXX_COMPILER $MAKE_PROGRAM -DCMAKE_UNITY_BUILD=ON -S . -B build 2>&1
