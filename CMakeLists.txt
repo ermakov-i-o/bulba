@@ -14,12 +14,6 @@ target_include_directories(potato-bulba-obj
         include
 )
 
-find_package(Threads REQUIRED)
-target_link_libraries(potato-bulba-obj
-    PRIVATE
-        Threads::Threads
-)
-
 add_library(potato-bulba
     $<TARGET_OBJECTS:potato-bulba-obj>
 )
@@ -29,6 +23,12 @@ target_include_directories(potato-bulba
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
 )
+
+#[[find_package(Threads REQUIRED)
+target_link_libraries(potato-bulba
+    PRIVATE
+        Threads::Threads
+)]]
 
 foreach(target IN ITEMS potato-bulba-obj potato-bulba)
     set_target_properties(${target}
