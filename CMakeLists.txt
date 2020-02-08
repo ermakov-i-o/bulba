@@ -13,6 +13,10 @@ target_include_directories(potato-bulba-obj
     PRIVATE
         include
 )
+set_target_properties(potato-bulba-obj
+    PROPERTIES
+        POSITION_INDEPENDENT_CODE ${BUILD_SHARED_LIBS}
+)
 
 add_library(potato-bulba
     $<TARGET_OBJECTS:potato-bulba-obj>
