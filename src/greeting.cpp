@@ -5,7 +5,7 @@
 
 namespace bulba {
 
-void greet(std::string name)
+POTATO_BULBA_EXPORT void greet(std::string name)
 {
     std::thread{[name = std::move(name)]
         {
