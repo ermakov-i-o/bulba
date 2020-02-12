@@ -37,6 +37,10 @@ target_include_directories(bulba-objects
         $<BUILD_INTERFACE:${GENERATED_HEADERS_DIR}>
         $<INSTALL_INTERFACE:include>
 )
+target_compile_definitions(bulba-objects
+    PRIVATE
+        $<$<BOOL:"${BUILD_SHARED_LIBS}">:$<TARGET_PROPERTY:DEFINE_SYMBOL>>
+)
 target_link_libraries(bulba-objects
     PRIVATE
         Threads::Threads
